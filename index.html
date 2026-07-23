@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Synthorix · Premium Chemical Supply</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #F8FAFC;
+            color: #0F172A;
+        }
+
+        /* ===== GLASSMORPHISM ===== */
+        .glass {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.08);
+        }
+
+        .glass-dark {
+            background: rgba(10, 30, 99, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-primary {
+            background: linear-gradient(135deg, #0A1E63, #2D7FF9);
+            color: white;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 20px -6px rgba(45, 127, 249, 0.3);
+            padding: 12px 28px;
+            border-radius: 9999px;
+            font-weight: 500;
+            display: inline-block;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 12px 30px -6px #2D7FF9;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            transition: 0.2s;
+            padding: 12px 28px;
+            border-radius: 9999px;
+            font-weight: 500;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* ===== CARDS ===== */
+        .card-premium {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.01);
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .card-premium:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 30px 60px -16px rgba(10, 30, 99, 0.12);
+        }
+
+        /* ===== NAVBAR ===== */
+        .nav-blur {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.02);
+        }
+
+        .section-dark {
+            background: #0A1E63;
+            color: white;
+        }
+
+        .section-padding {
+            padding: 5rem 1.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            .section-padding {
+                padding: 7rem 3rem;
+            }
+        }
+
+        /* ===== STATS ===== */
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        /* ===== TESTIMONIAL SLIDER ===== */
+        .testimonial-slider {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding-bottom: 0.5rem;
+        }
+
+        .testimonial-slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        .testimonial-item {
+            scroll-snap-align: start;
+            min-width: 280px;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 1024px) {
+            .testimonial-slider {
+                justify-content: center;
+                overflow-x: visible;
+                flex-wrap: wrap;
+            }
+        }
+
+        /* ===== TRUSTED COMPANIES MARQUEE ===== */
+        .marquee-wrapper {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+
+        .marquee-wrapper::before,
+        .marquee-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 80px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .marquee-wrapper::before {
+            left: 0;
+            background: linear-gradient(to right, white, transparent);
+        }
+
+        .marquee-wrapper::after {
+            right: 0;
+            background: linear-gradient(to left, white, transparent);
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 4rem;
+            width: max-content;
+            animation: marqueeScroll 20s linear infinite;
+        }
+
+        .marquee-track span {
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ===== FAQ ===== */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+        }
+
+        /* ===== CTA GRADIENT ===== */
+        .cta-gradient-bg {
+            background: linear-gradient(135deg, #0A1E63 0%, #2D7FF9 100%);
+            opacity: 0.9;
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .img-zoom {
+            transition: transform 0.45s cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .img-zoom:hover {
+            transform: scale(1.02);
+        }
+
+        /* ===== PAGE TRANSITIONS ===== */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 640px) {
+            .stat-number {
+                font-size: 2rem;
+            }
+            .testimonial-item {
+                min-width: 240px;
+            }
+            .hero-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* ===== NAV LINK ACTIVE ===== */
+        .nav-link.active {
+            color: #2D7FF9;
+            font-weight: 600;
+        }
+
+        .nav-link {
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #2D7FF9;
+        }
+
+        /* ===== MOBILE MENU ===== */
+        .mobile-menu {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+            .mobile-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- ===== NAVBAR ===== -->
+    <!-- ============================================================ -->
+    <nav class="nav-blur fixed top-0 left-0 w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-xl sm:text-2xl font-bold text-[#0A1E63] tracking-tight">synthorix</span>
+                <span class="bg-[#2D7FF9] text-white text-[9px] sm:text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider">New</span>
+            </div>
+
+            <!-- Desktop Nav -->
+            <div class="desktop-nav hidden md:flex items-center gap-6 text-sm font-medium text-[#1e293b]">
+                <a href="#" class="nav-link active" data-page="home">Home</a>
+                <a href="#" class="nav-link" data-page="about">About</a>
+                <a href="#" class="nav-link" data-page="products">Products</a>
+                <a href="#" class="nav-link" data-page="services">Services</a>
+                <a href="#" class="nav-link" data-page="contact">Contact</a>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <a href="#" class="hidden sm:inline-block text-sm font-medium text-[#0A1E63]">Log in</a>
+                <a href="#" class="btn-primary text-sm">Get started</a>
+                <!-- Mobile Menu Toggle -->
+                <button id="menuToggle" class="md:hidden text-2xl text-[#0A1E63]">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu hidden bg-white border-t border-gray-100 px-4 py-4 space-y-3">
+            <a href="#" class="nav-link block active" data-page="home">Home</a>
+            <a href="#" class="nav-link block" data-page="about">About</a>
+            <a href="#" class="nav-link block" data-page="products">Products</a>
+            <a href="#" class="nav-link block" data-page="services">Services</a>
+            <a href="#" class="nav-link block" data-page="contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- ============================================================ -->
+    <!-- ===== PAGE: HOME ===== -->
+    <!-- ============================================================ -->
+    <div id="page-home" class="page active">
+
+        <!-- Hero -->
+        <section class="relative min-h-screen flex items-center pt-20 pb-10 overflow-hidden">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1581093588401-fbb62a02f120?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center bg-no-repeat"></div>
+            <div class="absolute inset-0 bg-[#0A1E63]/70 backdrop-blur-[2px]"></div>
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full">
+                <div class="grid lg:grid-cols-2 gap-10 items-center">
+                    <div class="space-y-6">
+                        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-1.5 rounded-full text-white/80 text-sm border border-white/10">
+                            <span class="w-2 h-2 bg-emerald-400 rounded-full inline-block"></span> Hassle free subscription
+                        </div>
+                        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.08] tracking-tight">
+                            Cut costs & <br /><span class="text-transparent bg-clip-text bg-gradient-to-r from-[#4DA3FF] to-[#2D7FF9]">ensure reliable</span><br /> chemical supply
+                        </h1>
+                        <p class="text-lg sm:text-xl text-white/80 max-w-lg leading-relaxed">Get consistent, high‑quality chemical supplies delivered on time, every time.</p>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="#" class="btn-primary">Start saving</a>
+                            <a href="#" class="btn-secondary">Learn more →</a>
+                        </div>
+                        <div class="flex items-center gap-6 text-white/70 text-sm">
+                            <span class="flex items-center gap-2"><i class="fas fa-check-circle text-[#4DA3FF]"></i> 250+ Satisfied subscribers</span>
+                        </div>
+                    </div>
+                    <div class="relative hidden lg:flex justify-end">
+                        <div class="glass-dark rounded-[32px] p-6 sm:p-8 max-w-sm w-full backdrop-blur-xl border border-white/10 shadow-2xl animate-float">
+                            <div class="flex items-center gap-4 text-white">
+                                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#2D7FF9]/20 flex items-center justify-center text-2xl"><i class="fas fa-flask"></i></div>
+                                <div><span class="text-2xl sm:text-3xl font-bold">98.3%</span><span class="text-white/60 text-sm ml-1">on‑time</span></div>
+                            </div>
+                            <div class="mt-4 flex justify-between text-white/70 text-sm border-t border-white/10 pt-4">
+                                <span><span class="text-white font-semibold">99.8%</span> purity</span>
+                                <span><span class="text-white font-semibold">300+</span> deliveries</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trusted Companies -->
+        <section class="py-8 sm:py-12 bg-white/80 border-y border-gray-100/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                <p class="text-center text-xs sm:text-sm uppercase tracking-widest text-gray-400 font-medium mb-6 sm:mb-8">Trusted by leading businesses</p>
+                <div class="marquee-wrapper">
+                    <div class="marquee-track items-center opacity-60 grayscale">
+                        <span class="text-base sm:text-xl font-semibold text-[#0A1E63]/30">BASF</span>
+                        <span class="text-base sm:text-xl font-semibold text-[#0A1E63]/30">Dow</span>
+                        <span class="text-base sm:text-xl font-semibold text-[#0A1E63]/30">SABIC</span>
+                        <span class="text-base sm:text-xl font-semibold text-[#0A1E63]/30">LG Chem</span>
+                        <span class="text-base sm:text-xl font-semibold text-[#0A1E63]/30">Sinopec</span>
+                        <span class="text-base sm:text-xl font-semibold text-[#0A1E63]/30">BASF</span>
+                        <span class="text-base sm:text-xl font-semibold text-[#0A1E63]/30">Dow</span>
+                        <span class="text-base sm:text-xl font-semibold text-[#0A1E63]/30">SABIC</span>
+                        <span class="text-base sm:text-xl font-semibold text-[#0A1E63]/30">LG Chem</span>
+                        <span class="text-base sm:text-xl font-semibold text-[#0A1E63]/30">Sinopec</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Preview -->
+        <section class="section-padding max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="order-2 lg:order-1">
+                    <img src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=800&q=80" alt="lab" class="rounded-[32px] shadow-2xl img-zoom w-full max-h-[500px] object-cover" />
+                </div>
+                <div class="order-1 lg:order-2 space-y-5">
+                    <span class="text-[#2D7FF9] font-semibold text-sm tracking-widest">OUR CORE THING</span>
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.1]">Empower small businesses with reliable chemical solutions</h2>
+                    <p class="text-gray-600 text-base sm:text-lg leading-relaxed">Our mission is to empower small businesses with reliable, high‑quality chemical solutions that ensure operations run smoothly and efficiently.</p>
+                    <div class="grid grid-cols-2 gap-4 pt-2">
+                        <div><span class="block text-xl sm:text-2xl font-bold text-[#0A1E63]">Reliability</span><span class="text-gray-500 text-xs sm:text-sm">Speedy & dependable supply</span></div>
+                        <div><span class="block text-xl sm:text-2xl font-bold text-[#0A1E63]">Quality</span><span class="text-gray-500 text-xs sm:text-sm">Premium chemicals, strict standards</span></div>
+                    </div>
+                    <a href="#" class="inline-flex items-center gap-2 text-[#2D7FF9] font-medium mt-2 hover:gap-4 transition-all" data-page="about">Read more <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section class="section-padding bg-[#F1F5F9]">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-12"><span class="text-[#2D7FF9] font-semibold text-sm tracking-widest">SERVICES</span>
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mt-2">Premium chemical solutions</h2>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                    <div class="card-premium p-6 sm:p-8"><i class="fas fa-flask text-3xl text-[#2D7FF9]"></i>
+                        <h3 class="text-xl font-bold mt-4">Industrial chemicals</h3>
+                        <p class="text-gray-500 mt-2 text-sm sm:text-base">Bulk & specialty chemicals for manufacturing.</p>
+                        <a href="#" class="text-[#2D7FF9] font-medium inline-flex items-center gap-1 mt-4" data-page="services">Learn more →</a>
+                    </div>
+                    <div class="card-premium p-6 sm:p-8"><i class="fas fa-truck text-3xl text-[#2D7FF9]"></i>
+                        <h3 class="text-xl font-bold mt-4">Supply chain</h3>
+                        <p class="text-gray-500 mt-2 text-sm sm:text-base">End‑to‑end logistics with real‑time tracking.</p>
+                        <a href="#" class="text-[#2D7FF9] font-medium inline-flex items-center gap-1 mt-4" data-page="services">Learn more →</a>
+                    </div>
+                    <div class="card-premium p-6 sm:p-8"><i class="fas fa-file-alt text-3xl text-[#2D7FF9]"></i>
+                        <h3 class="text-xl font-bold mt-4">Consultation</h3>
+                        <p class="text-gray-500 mt-2 text-sm sm:text-base">Expert guidance for your chemical needs.</p>
+                        <a href="#" class="text-[#2D7FF9] font-medium inline-flex items-center gap-1 mt-4" data-page="services">Learn more →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats + Process -->
+        <section class="section-padding section-dark">
+            <div class="max-w-7xl mx-auto grid lg:grid-cols-5 gap-8">
+                <div class="lg:col-span-2 space-y-6">
+                    <span class="text-[#4DA3FF] text-sm tracking-widest">ACHIEVEMENTS</span>
+                    <h2 class="text-3xl sm:text-4xl font-bold">Our edge in excellence</h2>
+                    <div class="grid grid-cols-2 gap-4 sm:gap-6">
+                        <div class="stat-card bg-white/10 backdrop-blur p-5 sm:p-6 rounded-2xl text-white"><span class="stat-number text-2xl sm:text-3xl" data-target="250">0</span><span class="block text-sm opacity-70">Projects</span></div>
+                        <div class="stat-card bg-white/10 backdrop-blur p-5 sm:p-6 rounded-2xl text-white"><span class="stat-number text-2xl sm:text-3xl" data-target="60">0</span><span class="block text-sm opacity-70">Countries</span></div>
+                        <div class="stat-card bg-white/10 backdrop-blur p-5 sm:p-6 rounded-2xl text-white"><span class="stat-number text-2xl sm:text-3xl" data-target="25">0</span><span class="block text-sm opacity-70">Years</span></div>
+                        <div class="stat-card bg-white/10 backdrop-blur p-5 sm:p-6 rounded-2xl text-white"><span class="stat-number text-2xl sm:text-3xl" data-target="98">0</span><span class="block text-sm opacity-70">Satisfaction %</span></div>
+                    </div>
+                </div>
+                <div class="lg:col-span-3">
+                    <span class="text-[#4DA3FF] text-sm tracking-widest">PROCESS</span>
+                    <h3 class="text-2xl font-bold mt-2">From research to delivery</h3>
+                    <div class="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-4 mt-6 text-center text-sm">
+                        <div class="bg-white/5 p-3 sm:p-4 rounded-2xl"><i class="fas fa-microscope text-xl sm:text-2xl text-[#4DA3FF]"></i><span class="block mt-1 text-xs sm:text-sm font-medium">Research</span></div>
+                        <div class="bg-white/5 p-3 sm:p-4 rounded-2xl"><i class="fas fa-industry text-xl sm:text-2xl text-[#4DA3FF]"></i><span class="block mt-1 text-xs sm:text-sm font-medium">Manufacturing</span></div>
+                        <div class="bg-white/5 p-3 sm:p-4 rounded-2xl"><i class="fas fa-check-double text-xl sm:text-2xl text-[#4DA3FF]"></i><span class="block mt-1 text-xs sm:text-sm font-medium">Quality</span></div>
+                        <div class="bg-white/5 p-3 sm:p-4 rounded-2xl"><i class="fas fa-boxes text-xl sm:text-2xl text-[#4DA3FF]"></i><span class="block mt-1 text-xs sm:text-sm font-medium">Packaging</span></div>
+                        <div class="bg-white/5 p-3 sm:p-4 rounded-2xl"><i class="fas fa-truck-fast text-xl sm:text-2xl text-[#4DA3FF]"></i><span class="block mt-1 text-xs sm:text-sm font-medium">Delivery</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Industries -->
+        <section class="section-padding max-w-7xl mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-10 sm:mb-12">Industries we serve</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
+                <div class="card-premium p-4 sm:p-6 text-center"><i class="fas fa-seedling text-2xl sm:text-3xl text-[#2D7FF9]"></i>
+                    <p class="font-semibold mt-1 sm:mt-2 text-sm sm:text-base">Agriculture</p>
+                </div>
+                <div class="card-premium p-4 sm:p-6 text-center"><i class="fas fa-bread-slice text-2xl sm:text-3xl text-[#2D7FF9]"></i>
+                    <p class="font-semibold mt-1 sm:mt-2 text-sm sm:text-base">Food</p>
+                </div>
+                <div class="card-premium p-4 sm:p-6 text-center"><i class="fas fa-hospital text-2xl sm:text-3xl text-[#2D7FF9]"></i>
+                    <p class="font-semibold mt-1 sm:mt-2 text-sm sm:text-base">Medical</p>
+                </div>
+                <div class="card-premium p-4 sm:p-6 text-center"><i class="fas fa-flask text-2xl sm:text-3xl text-[#2D7FF9]"></i>
+                    <p class="font-semibold mt-1 sm:mt-2 text-sm sm:text-base">Laboratory</p>
+                </div>
+                <div class="card-premium p-4 sm:p-6 text-center"><i class="fas fa-hard-hat text-2xl sm:text-3xl text-[#2D7FF9]"></i>
+                    <p class="font-semibold mt-1 sm:mt-2 text-sm sm:text-base">Construction</p>
+                </div>
+                <div class="card-premium p-4 sm:p-6 text-center"><i class="fas fa-oil-can text-2xl sm:text-3xl text-[#2D7FF9]"></i>
+                    <p class="font-semibold mt-1 sm:mt-2 text-sm sm:text-base">Oil & Gas</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="section-padding bg-[#F1F5F9]">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-10 sm:mb-12">Real stories, real success</h2>
+                <div class="testimonial-slider justify-center flex-wrap lg:flex-nowrap">
+                    <div class="testimonial-item glass p-6 sm:p-8 rounded-[32px]"><i class="fas fa-star text-[#F59E0B]"></i><i class="fas fa-star text-[#F59E0B]"></i><i class="fas fa-star text-[#F59E0B]"></i><i class="fas fa-star text-[#F59E0B]"></i><i class="fas fa-star text-[#F59E0B]"></i>
+                        <p class="mt-3 text-sm sm:text-base">“Synthorix transformed our supply chain.”</p>
+                        <div class="flex items-center gap-4 mt-4"><img src="https://i.pravatar.cc/60?img=5" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full">
+                            <div><p class="font-semibold text-sm sm:text-base">Carlos White</p><p class="text-xs sm:text-sm text-gray-500">PRUSOl tian</p></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item glass p-6 sm:p-8 rounded-[32px]"><i class="fas fa-star text-[#F59E0B]"></i><i class="fas fa-star text-[#F59E0B]"></i><i class="fas fa-star text-[#F59E0B]"></i><i class="fas fa-star text-[#F59E0B]"></i><i class="fas fa-star text-[#F59E0B]"></i>
+                        <p class="mt-3 text-sm sm:text-base">“Dependable deliveries, high quality.”</p>
+                        <div class="flex items-center gap-4 mt-4"><img src="https://i.pravatar.cc/60?img=8" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full">
+                            <div><p class="font-semibold text-sm sm:text-base">Darwin N</p><p class="text-xs sm:text-sm text-gray-500">MNQURAUS TICS</p></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item glass p-6 sm:p-8 rounded-[32px]"><i class="fas fa-star text-[#F59E0B]"></i><i class="fas fa-star text-[#F59E0B]"></i><i class="fas fa-star text-[#F59E0B]"></i><i class="fas fa-star text-[#F59E0B]"></i><i class="fas fa-star text-[#F59E0B]"></i>
+                        <p class="mt-3 text-sm sm:text-base">“Saved time & costs – impressed.”</p>
+                        <div class="flex items-center gap-4 mt-4"><img src="https://i.pravatar.cc/60?img=12" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full">
+                            <div><p class="font-semibold text-sm sm:text-base">Nandha Sai</p><p class="text-xs sm:text-sm text-gray-500">LEGA WLSolutian</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="section-padding max-w-4xl mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-10 sm:mb-12">FAQ</h2>
+            <div class="space-y-4">
+                <div class="faq-item border-b border-gray-200 pb-4">
+                    <div class="faq-question flex justify-between items-center cursor-pointer"><span class="font-semibold text-base sm:text-lg">What types of chemicals do you supply?</span><i class="fas fa-chevron-down text-[#2D7FF9]"></i></div>
+                    <div class="faq-answer text-gray-500 pt-2 text-sm sm:text-base">We offer a wide range of high‑quality chemicals tailored to manufacturing, agriculture, and research.</div>
+                </div>
+                <div class="faq-item border-b border-gray-200 pb-4">
+                    <div class="faq-question flex justify-between items-center cursor-pointer"><span class="font-semibold text-base sm:text-lg">How do I choose the right plan?</span><i class="fas fa-chevron-down text-[#2D7FF9]"></i></div>
+                    <div class="faq-answer text-gray-500 pt-2 text-sm sm:text-base">Our flexible and premium plans scale with your business. Contact us for a personalized recommendation.</div>
+                </div>
+                <div class="faq-item border-b border-gray-200 pb-4">
+                    <div class="faq-question flex justify-between items-center cursor-pointer"><span class="font-semibold text-base sm:text-lg">What is your delivery schedule?</span><i class="fas fa-chevron-down text-[#2D7FF9]"></i></div>
+                    <div class="faq-answer text-gray-500 pt-2 text-sm sm:text-base">We offer monthly or as‑needed deliveries with real‑time tracking.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="relative overflow-hidden rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] max-w-7xl w-full mx-auto my-8 sm:my-12">
+            <div class="absolute inset-0 cta-gradient-bg animate-pulse"></div>
+            <div class="relative z-10 flex flex-col items-center text-center py-10 sm:py-16 md:py-20 px-5 sm:px-10 md:px-16">
+                <span class="inline-block bg-white/10 backdrop-blur px-4 py-1 rounded-full text-xs sm:text-sm text-white/80">Limited time</span>
+                <h2 class="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mt-3 sm:mt-5 md:mt-6 text-white leading-tight">Claim your 30% Off</h2>
+                <p class="text-white/70 text-sm sm:text-base md:text-lg mt-3 sm:mt-4 max-w-md sm:max-w-lg md:max-w-xl">Join and experience seamless integration, quality service, and significant savings.</p>
+                <a href="#" class="btn-primary mt-5 sm:mt-7 md:mt-8 text-sm sm:text-base" data-page="contact">Get started →</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== PAGE: ABOUT ===== -->
+    <!-- ============================================================ -->
+    <div id="page-about" class="page">
+
+        <!-- About Hero -->
+        <section class="relative min-h-[60vh] flex items-center pt-20 overflow-hidden">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center bg-no-repeat"></div>
+            <div class="absolute inset-0 bg-[#0A1E63]/80 backdrop-blur-[2px]"></div>
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 text-center text-white">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold">About Synthorix</h1>
+                <p class="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto mt-4">Decades of excellence in chemical supply</p>
+            </div>
+        </section>
+
+        <!-- Company Story -->
+        <section class="section-padding max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div><img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=800&q=80" class="rounded-[32px] shadow-2xl img-zoom w-full" alt="about" /></div>
+                <div><span class="text-[#2D7FF9] font-semibold text-sm tracking-widest">OUR STORY</span>
+                    <h3 class="text-3xl font-bold mt-2">Decades of chemical excellence</h3>
+                    <p class="text-gray-600 mt-4">Founded in 1998, Synthorix has grown into a trusted partner for businesses worldwide. We combine deep industry knowledge with a commitment to sustainability and quality.</p>
+                    <div class="grid grid-cols-2 gap-4 mt-6">
+                        <div><i class="fas fa-check-circle text-[#2D7FF9]"></i> <span class="font-semibold">Mission:</span> empower small biz</div>
+                        <div><i class="fas fa-check-circle text-[#2D7FF9]"></i> <span class="font-semibold">Vision:</span> global chemical leader</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Values -->
+        <section class="section-padding bg-[#F1F5F9]">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12">Our Core Values</h2>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="card-premium p-6 text-center"><i class="fas fa-shield-alt text-4xl text-[#2D7FF9]"></i>
+                        <h3 class="text-xl font-bold mt-4">Quality</h3>
+                        <p class="text-gray-500 text-sm">Uncompromising standards for every chemical.</p>
+                    </div>
+                    <div class="card-premium p-6 text-center"><i class="fas fa-handshake text-4xl text-[#2D7FF9]"></i>
+                        <h3 class="text-xl font-bold mt-4">Integrity</h3>
+                        <p class="text-gray-500 text-sm">Honest, transparent partnerships.</p>
+                    </div>
+                    <div class="card-premium p-6 text-center"><i class="fas fa-leaf text-4xl text-[#2D7FF9]"></i>
+                        <h3 class="text-xl font-bold mt-4">Sustainability</h3>
+                        <p class="text-gray-500 text-sm">Eco-friendly practices for a better future.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team -->
+        <section class="section-padding max-w-7xl mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12">Our Leadership</h2>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card-premium p-6 text-center"><img src="https://i.pravatar.cc/150?img=32" class="w-24 h-24 rounded-full mx-auto" />
+                    <h3 class="text-xl font-bold mt-4">Dr. Sarah Chen</h3>
+                    <p class="text-gray-500 text-sm">CEO & Founder</p>
+                </div>
+                <div class="card-premium p-6 text-center"><img src="https://i.pravatar.cc/150?img=36" class="w-24 h-24 rounded-full mx-auto" />
+                    <h3 class="text-xl font-bold mt-4">Mark Johnson</h3>
+                    <p class="text-gray-500 text-sm">Head of Operations</p>
+                </div>
+                <div class="card-premium p-6 text-center"><img src="https://i.pravatar.cc/150?img=44" class="w-24 h-24 rounded-full mx-auto" />
+                    <h3 class="text-xl font-bold mt-4">Elena Rodriguez</h3>
+                    <p class="text-gray-500 text-sm">Quality Assurance Director</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="relative overflow-hidden rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] max-w-7xl w-full mx-auto my-8 sm:my-12">
+            <div class="absolute inset-0 cta-gradient-bg animate-pulse"></div>
+            <div class="relative z-10 flex flex-col items-center text-center py-10 sm:py-16 md:py-20 px-5 sm:px-10 md:px-16">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">Join the Synthorix family</h2>
+                <p class="text-white/70 text-sm sm:text-base md:text-lg mt-3 max-w-md sm:max-w-lg md:max-w-xl">Become a partner and experience chemical supply redefined.</p>
+                <a href="#" class="btn-primary mt-5 sm:mt-7 md:mt-8 text-sm sm:text-base" data-page="contact">Get in touch →</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== PAGE: PRODUCTS ===== -->
+    <!-- ============================================================ -->
+    <div id="page-products" class="page">
+
+        <!-- Products Hero -->
+        <section class="relative min-h-[50vh] flex items-center pt-20 overflow-hidden">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1628595351029-c2bf17511435?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center bg-no-repeat"></div>
+            <div class="absolute inset-0 bg-[#0A1E63]/80 backdrop-blur-[2px]"></div>
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 text-center text-white">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold">Our Chemical Products</h1>
+                <p class="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto mt-4">High-purity chemicals for every industry</p>
+            </div>
+        </section>
+
+        <!-- Search & Products -->
+        <section class="section-padding max-w-7xl mx-auto">
+            <div class="flex flex-col sm:flex-row gap-4 mb-10">
+                <input placeholder="Search products..." class="flex-1 px-6 py-3 rounded-full border border-gray-200 shadow-sm" />
+                <button class="btn-primary">Search</button>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card-premium p-6"><img src="https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?auto=format&fit=crop&w=400&q=80" class="rounded-2xl w-full h-48 object-cover" />
+                    <h3 class="text-xl font-bold mt-4">Sodium Hydroxide</h3>
+                    <p class="text-gray-500 text-sm">High purity, industrial grade. 99.5%</p>
+                    <div class="flex gap-2 mt-4"><span class="bg-[#2D7FF9]/10 text-[#2D7FF9] px-3 py-1 rounded-full text-xs">Safety PDF</span><span class="bg-[#0A1E63]/10 text-[#0A1E63] px-3 py-1 rounded-full text-xs">Quote</span></div>
+                </div>
+                <div class="card-premium p-6"><img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=400&q=80" class="rounded-2xl w-full h-48 object-cover" />
+                    <h3 class="text-xl font-bold mt-4">Acetic Acid</h3>
+                    <p class="text-gray-500 text-sm">Food grade, 99.8% purity.</p>
+                    <div class="flex gap-2 mt-4"><span class="bg-[#2D7FF9]/10 text-[#2D7FF9] px-3 py-1 rounded-full text-xs">Safety PDF</span><span class="bg-[#0A1E63]/10 text-[#0A1E63] px-3 py-1 rounded-full text-xs">Quote</span></div>
+                </div>
+                <div class="card-premium p-6"><img src="https://images.unsplash.com/photo-1616400619175-5beda3a17896?auto=format&fit=crop&w=400&q=80" class="rounded-2xl w-full h-48 object-cover" />
+                    <h3 class="text-xl font-bold mt-4">Methanol</h3>
+                    <p class="text-gray-500 text-sm">Laboratory reagent, 99.9%.</p>
+                    <div class="flex gap-2 mt-4"><span class="bg-[#2D7FF9]/10 text-[#2D7FF9] px-3 py-1 rounded-full text-xs">Safety PDF</span><span class="bg-[#0A1E63]/10 text-[#0A1E63] px-3 py-1 rounded-full text-xs">Quote</span></div>
+                </div>
+                <div class="card-premium p-6"><img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=400&q=80" class="rounded-2xl w-full h-48 object-cover" />
+                    <h3 class="text-xl font-bold mt-4">Sulfuric Acid</h3>
+                    <p class="text-gray-500 text-sm">Industrial grade, 98%.</p>
+                    <div class="flex gap-2 mt-4"><span class="bg-[#2D7FF9]/10 text-[#2D7FF9] px-3 py-1 rounded-full text-xs">Safety PDF</span><span class="bg-[#0A1E63]/10 text-[#0A1E63] px-3 py-1 rounded-full text-xs">Quote</span></div>
+                </div>
+                <div class="card-premium p-6"><img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=400&q=80" class="rounded-2xl w-full h-48 object-cover" />
+                    <h3 class="text-xl font-bold mt-4">Ethanol</h3>
+                    <p class="text-gray-500 text-sm">Pharmaceutical grade, 99.5%.</p>
+                    <div class="flex gap-2 mt-4"><span class="bg-[#2D7FF9]/10 text-[#2D7FF9] px-3 py-1 rounded-full text-xs">Safety PDF</span><span class="bg-[#0A1E63]/10 text-[#0A1E63] px-3 py-1 rounded-full text-xs">Quote</span></div>
+                </div>
+                <div class="card-premium p-6"><img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=400&q=80" class="rounded-2xl w-full h-48 object-cover" />
+                    <h3 class="text-xl font-bold mt-4">Ammonia Solution</h3>
+                    <p class="text-gray-500 text-sm">Laboratory grade, 25%.</p>
+                    <div class="flex gap-2 mt-4"><span class="bg-[#2D7FF9]/10 text-[#2D7FF9] px-3 py-1 rounded-full text-xs">Safety PDF</span><span class="bg-[#0A1E63]/10 text-[#0A1E63] px-3 py-1 rounded-full text-xs">Quote</span></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== PAGE: SERVICES ===== -->
+    <!-- ============================================================ -->
+    <div id="page-services" class="page">
+
+        <!-- Services Hero -->
+        <section class="relative min-h-[50vh] flex items-center pt-20 overflow-hidden">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center bg-no-repeat"></div>
+            <div class="absolute inset-0 bg-[#0A1E63]/80 backdrop-blur-[2px]"></div>
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 text-center text-white">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold">Our Services</h1>
+                <p class="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto mt-4">End-to-end chemical supply solutions</p>
+            </div>
+        </section>
+
+        <!-- Services List -->
+        <section class="section-padding max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card-premium p-6"><i class="fas fa-flask text-3xl text-[#2D7FF9]"></i>
+                    <h3 class="text-xl font-bold mt-4">Industrial Chemicals</h3>
+                    <p class="text-gray-500 text-sm">Bulk & specialty chemicals for manufacturing.</p>
+                </div>
+                <div class="card-premium p-6"><i class="fas fa-truck text-3xl text-[#2D7FF9]"></i>
+                    <h3 class="text-xl font-bold mt-4">Supply Chain</h3>
+                    <p class="text-gray-500 text-sm">End-to-end logistics with real-time tracking.</p>
+                </div>
+                <div class="card-premium p-6"><i class="fas fa-file-import text-3xl text-[#2D7FF9]"></i>
+                    <h3 class="text-xl font-bold mt-4">Import & Export</h3>
+                    <p class="text-gray-500 text-sm">Global chemical trade with full compliance.</p>
+                </div>
+                <div class="card-premium p-6"><i class="fas fa-box text-3xl text-[#2D7FF9]"></i>
+                    <h3 class="text-xl font-bold mt-4">Custom Packaging</h3>
+                    <p class="text-gray-500 text-sm">Tailored packaging for your specific needs.</p>
+                </div>
+                <div class="card-premium p-6"><i class="fas fa-shipping-fast text-3xl text-[#2D7FF9]"></i>
+                    <h3 class="text-xl font-bold mt-4">Logistics</h3>
+                    <p class="text-gray-500 text-sm">Fast, reliable delivery worldwide.</p>
+                </div>
+                <div class="card-premium p-6"><i class="fas fa-headset text-3xl text-[#2D7FF9]"></i>
+                    <h3 class="text-xl font-bold mt-4">Consultation</h3>
+                    <p class="text-gray-500 text-sm">Expert guidance for your chemical needs.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section class="section-padding bg-[#F1F5F9]">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12">Choose Your Plan</h2>
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="card-premium p-8 text-center"><h3 class="text-2xl font-bold">Flexible</h3>
+                        <p class="text-4xl font-bold mt-4">$200 <span class="text-sm font-normal text-gray-500">/month</span></p>
+                        <ul class="mt-6 space-y-3 text-left">
+                            <li><i class="fas fa-check text-[#2D7FF9]"></i> Customizable product orders</li>
+                            <li><i class="fas fa-check text-[#2D7FF9]"></i> Standard support</li>
+                            <li><i class="fas fa-check text-[#2D7FF9]"></i> Monthly delivery</li>
+                        </ul>
+                        <a href="#" class="btn-primary w-full mt-8 text-center">Get started</a>
+                    </div>
+                    <div class="card-premium p-8 text-center border-2 border-[#2D7FF9]"><h3 class="text-2xl font-bold">Premium</h3>
+                        <p class="text-4xl font-bold mt-4">$320 <span class="text-sm font-normal text-gray-500">/month</span></p>
+                        <ul class="mt-6 space-y-3 text-left">
+                            <li><i class="fas fa-check text-[#2D7FF9]"></i> Full product catalog</li>
+                            <li><i class="fas fa-check text-[#2D7FF9]"></i> 24/7 dedicated support</li>
+                            <li><i class="fas fa-check text-[#2D7FF9]"></i> Weekly delivery</li>
+                        </ul>
+                        <a href="#" class="btn-primary w-full mt-8 text-center">Get started</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== PAGE: CONTACT ===== -->
+    <!-- ============================================================ -->
+    <div id="page-contact" class="page">
+
+        <!-- Contact Hero -->
+        <section class="relative min-h-[40vh] flex items-center pt-20 overflow-hidden">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1585846030985-09b93a267e13?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center bg-no-repeat"></div>
+            <div class="absolute inset-0 bg-[#0A1E63]/80 backdrop-blur-[2px]"></div>
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 text-center text-white">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold">Get in Touch</h1>
+                <p class="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto mt-4">We're here to help. Reach out anytime.</p>
+            </div>
+        </section>
+
+        <!-- Contact Form + Info -->
+        <section class="section-padding max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <h2 class="text-3xl font-bold">Send us a message</h2>
+                    <p class="text-gray-600 mt-2">We'll respond within 24 hours.</p>
+                    <form class="mt-8 space-y-4">
+                        <input placeholder="Full name" class="w-full px-6 py-3 rounded-full border border-gray-200" />
+                        <input placeholder="Email address" class="w-full px-6 py-3 rounded-full border border-gray-200" />
+                        <input placeholder="Subject" class="w-full px-6 py-3 rounded-full border border-gray-200" />
+                        <textarea placeholder="Message" rows="5" class="w-full px-6 py-3 rounded-2xl border border-gray-200"></textarea>
+                        <button class="btn-primary w-full">Send message</button>
+                    </form>
+                </div>
+                <div>
+                    <div class="bg-white rounded-[32px] p-8 shadow-xl">
+                        <h3 class="text-xl font-bold">Office information</h3>
+                        <ul class="mt-6 space-y-4">
+                            <li><i class="fas fa-map-marker-alt text-[#2D7FF9] w-6"></i> 123 Chemical Ave, Industry City</li>
+                            <li><i class="fas fa-phone text-[#2D7FF9] w-6"></i> +123 456 7890</li>
+                            <li><i class="fas fa-envelope text-[#2D7FF9] w-6"></i> info@synthorix.com</li>
+                            <li><i class="fas fa-clock text-[#2D7FF9] w-6"></i> Mon-Fri 9:00 – 18:00</li>
+                        </ul>
+                        <div class="mt-6 flex gap-4">
+                            <i class="fab fa-whatsapp text-2xl text-green-500"></i>
+                            <i class="fab fa-telegram text-2xl text-[#2D7FF9]"></i>
+                            <i class="fab fa-linkedin text-2xl text-[#0A1E63]"></i>
+                        </div>
+                    </div>
+                    <div class="mt-6 rounded-[32px] overflow-hidden shadow-xl h-64 bg-gray-200 flex items-center justify-center text-gray-500">
+                        <i class="fas fa-map fa-3x"></i>
+                        <span class="ml-2">Google Map</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="section-padding bg-[#F1F5F9] max-w-4xl mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <div class="faq-item border-b border-gray-200 pb-4">
+                    <div class="faq-question flex justify-between items-center cursor-pointer"><span class="font-semibold text-base sm:text-lg">What types of chemicals do you supply?</span><i class="fas fa-chevron-down text-[#2D7FF9]"></i></div>
+                    <div class="faq-answer text-gray-500 pt-2 text-sm sm:text-base">We offer a wide range of high‑quality chemicals tailored to manufacturing, agriculture, and research.</div>
+                </div>
+                <div class="faq-item border-b border-gray-200 pb-4">
+                    <div class="faq-question flex justify-between items-center cursor-pointer"><span class="font-semibold text-base sm:text-lg">How do I choose the right plan?</span><i class="fas fa-chevron-down text-[#2D7FF9]"></i></div>
+                    <div class="faq-answer text-gray-500 pt-2 text-sm sm:text-base">Our flexible and premium plans scale with your business. Contact us for a personalized recommendation.</div>
+                </div>
+                <div class="faq-item border-b border-gray-200 pb-4">
+                    <div class="faq-question flex justify-between items-center cursor-pointer"><span class="font-semibold text-base sm:text-lg">What is your delivery schedule?</span><i class="fas fa-chevron-down text-[#2D7FF9]"></i></div>
+                    <div class="faq-answer text-gray-500 pt-2 text-sm sm:text-base">We offer monthly or as‑needed deliveries with real‑time tracking.</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== FOOTER (shared) ===== -->
+    <!-- ============================================================ -->
+    <footer class="bg-[#0A1E63] text-white/80 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 grid sm:grid-cols-2 md:grid-cols-4 gap-10">
+            <div><span class="text-2xl font-bold text-white">synthorix</span>
+                <p class="mt-4 text-sm opacity-70">Premium chemical supply, delivered.</p>
+                <div class="flex gap-4 mt-6"><i class="fab fa-twitter text-xl"></i><i class="fab fa-linkedin text-xl"></i><i class="fab fa-youtube text-xl"></i></div>
+            </div>
+            <div><h4 class="text-white font-semibold">Quick links</h4>
+                <ul class="mt-4 space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-white transition" data-page="about">About</a></li>
+                    <li><a href="#" class="hover:text-white transition" data-page="products">Products</a></li>
+                    <li><a href="#" class="hover:text-white transition" data-page="services">Services</a></li>
+                </ul>
+            </div>
+            <div><h4 class="text-white font-semibold">Contact</h4>
+                <ul class="mt-4 space-y-2 text-sm">
+                    <li><i class="fas fa-envelope mr-2"></i>info@synthorix.com</li>
+                    <li><i class="fas fa-phone mr-2"></i>+123 456 7890</li>
+                </ul>
+            </div>
+            <div><h4 class="text-white font-semibold">Newsletter</h4>
+                <div class="mt-4 flex"><input placeholder="Email" class="bg-white/10 border border-white/10 rounded-l-full px-4 py-2 w-full text-sm" /><button class="bg-[#2D7FF9] px-4 rounded-r-full text-sm">→</button></div>
+            </div>
+        </div>
+        <div class="border-t border-white/10 mt-10 pt-6 text-center text-sm opacity-60">© 2024 Synthorix. All Rights Reserved.</div>
+    </footer>
+
+    <!-- ============================================================ -->
+    <!-- ===== JAVASCRIPT ===== -->
+    <!-- ============================================================ -->
+    <script>
+        // ===== PAGE NAVIGATION =====
+        const pages = {
+            home: document.getElementById('page-home'),
+            about: document.getElementById('page-about'),
+            products: document.getElementById('page-products'),
+            services: document.getElementById('page-services'),
+            contact: document.getElementById('page-contact')
+        };
+
+        const navLinks = document.querySelectorAll('.nav-link');
+        const allPageLinks = document.querySelectorAll('[data-page]');
+
+        function showPage(pageId) {
+            // Hide all pages
+            Object.values(pages).forEach(p => p.classList.remove('active'));
+
+            // Show target page
+            if (pages[pageId]) {
+                pages[pageId].classList.add('active');
+            }
+
+            // Update nav links
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === pageId) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Nav links click
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = this.dataset.page;
+                if (page) showPage(page);
+                // Close mobile menu
+                document.getElementById('mobileMenu').classList.add('hidden');
+            });
+        });
+
+        // Other data-page links (buttons, footer links)
+        allPageLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = this.dataset.page;
+                if (page) showPage(page);
+                // Close mobile menu
+                document.getElementById('mobileMenu').classList.add('hidden');
+            });
+        });
+
+        // ===== MOBILE MENU =====
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuToggle.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+            this.querySelector('i').classList.toggle('fa-bars');
+            this.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // ===== FAQ TOGGLE =====
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', function() {
+                this.parentElement.classList.toggle('active');
+            });
+        });
+
+        // ===== TESTIMONIAL AUTO-SLIDE =====
+        const slider = document.querySelector('.testimonial-slider');
+        if (slider) {
+            let scrollAmount = 0;
+            setInterval(() => {
+                if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth) {
+                    slider.scrollLeft = 0;
+                } else {
+                    slider.scrollLeft += 280;
+                }
+            }, 3800);
+        }
+
+        // ===== NAVBAR SCROLL EFFECT =====
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(255,255,255,0.9)';
+            } else {
+                nav.style.background = 'rgba(255,255,255,0.72)';
+            }
+        });
+
+        // ===== STAT COUNTER =====
+        const counters = document.querySelectorAll('.stat-number');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.target);
+                    let current = 0;
+                    const increment = target / 40;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            el.innerText = target + (el.dataset.target === '98' ? '%' : '+');
+                            clearInterval(timer);
+                        } else {
+                            el.innerText = Math.floor(current) + (el.dataset.target === '98' ? '' : '+');
+                        }
+                    }, 20);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(c => observer.observe(c));
+    </script>
+
+</body>
+</html>
